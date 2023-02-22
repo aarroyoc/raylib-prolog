@@ -45,3 +45,43 @@ shapes_loop(Rotation0) :-
 	shapes_loop(Rotation)
 	)
     ).
+
+core_input_keys :-
+    init_window(800, 450, "Scryer Prolog - Core Input Keys"),
+    set_target_fps(60),
+    core_input_keys_loop(vector(400, 225)).
+
+core_input_keys_loop(vector(X0, Y0)) :-
+    (
+	window_should_close ->
+	close_window
+    ;   (is_key_down(right) -> X1 is X0 + 2; X1 = X0),
+	(is_key_down(left) -> X2 is X1 - 2; X2 = X1),
+	(is_key_down(up) -> Y1 is Y0 - 2; Y1 = Y0),
+	(is_key_down(down) -> Y2 is Y1 + 2; Y2 = Y1),
+	BallPosition = vector(X2, Y2),
+        begin_drawing,
+	clear_background(raywhite),
+	draw_text("move the ball with arrow keys", 10, 10, 20, darkgray),
+	draw_circle_v(BallPosition, 50, maroon),
+	end_drawing,
+	core_input_keys_loop(BallPosition)
+    ).
+
+texture :-
+    init_window(800, 450, "Scryer Prolog - Texture"),
+    set_target_fps(60),
+    load_texture("raylib.png", Texture),
+    texture_loop(Texture).
+
+texture_loop(Texture) :-
+    (
+	window_should_close ->
+	close_window
+    ;   begin_drawing,
+	clear_background(raywhite),
+	draw_texture(Texture, 20, 20, white),
+	draw_text("this IS a texture!", 360, 370, 10, gray),
+	end_drawing,
+	texture_loop(Texture)
+    ).
