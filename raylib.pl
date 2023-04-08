@@ -23,7 +23,8 @@
     draw_poly_lines_ex/6,
     load_texture/2,
     draw_texture/4,
-    unload_texture/1
+    unload_texture/1,
+    get_time/1
 ]).
 
 :- use_module(library(ffi)).
@@ -59,7 +60,8 @@ raylib_load :-
         'CloseWindow'([], void),
 	'LoadTexture'([cstr], texture),
 	'DrawTexture'([texture, sint32, sint32, color], void),
-	'UnloadTexture'([texture], void)
+	'UnloadTexture'([texture], void),
+	'GetTime'([], f64)
     ]).
 
 color(color(A, B, C, D), ["color", A, B, C, D]).
@@ -146,3 +148,4 @@ draw_poly_lines_ex(A0, B, C, D, E, Color0) :-
 load_texture(A, B) :- ffi:'LoadTexture'(A, B).
 draw_texture(A, B, C, D0) :- color(D0, D), ffi:'DrawTexture'(A, B, C, D).
 unload_texture(A) :- ffi:'UnloadTexture'(A).
+get_time(Time) :- ffi:'GetTime'(Time).
